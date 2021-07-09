@@ -4,3 +4,5 @@ Come far funzionare l'APP:
 2) Avvia l'APP React e connettiti in locale (127.0.0.1:3000).
 
 3) Buona fortuna!
+
+Cambiamento
