@@ -11,11 +11,11 @@ Before start you need 2 important prerequisite:
 2)A discord BOT made on the Discord Developer Portal.
 
 
-After you have installed node.js and you have get the Discord Bot Token, you can start!
+After you have installed node.js and you have got the Discord Bot Token, you can start!
 
 Setup Discord BOT:
 1)Open the "Discord Bot" folder via Terminal and run "npm install" to install all the dependencies.
-2)Before start the bot, create a .env file and put inside "DISCORDJS_BOT_TOKEN=" followed by the Discord Bot Token. Save the File.
+2)Before start the bot, create a .env file and put inside in the first line "DISCORDJS_BOT_TOKEN=" followed by the Discord Bot Token. Save the File.
 3)Back to Terminal, run "npm start" to Start the Discord BOT. Remember to add the BOT to the Channels you want to monitor!
 
 Setup Discord Manager UI:
