@@ -10,6 +10,9 @@ Before start you need 2 important prerequisite:
 1)Node.js
 2)A discord BOT made on the Discord Developer Portal.
 
+Note: To make the app work properly you need to toggle on the "Presence Intent" and the "Server Members Intent" in the configuration section of the BOT.
+Note2: You can choose the permissions of the bot and the Role Importance on the Discord Server Settings.
+
 
 After you have installed node.js and you have got the Discord Bot Token, you can start!
 
