@@ -1,38 +1,36 @@
 require('dotenv').config();
+//discord token from .env
 const {DISCORDJS_BOT_TOKEN} = process.env;
-//discord token ed id del canale discord da monitorare
 
-const { Client, DiscordAPIError , Intents} = require('discord.js');
+
+const { Client, Intents} = require('discord.js');
 const client = new Client({ ws: { intents: ['GUILD_MEMBERS', 'GUILD_PRESENCES', Intents.NON_PRIVILEGED] } });
 client.login(DISCORDJS_BOT_TOKEN);
 
 
-//server express per socket.io
+//server express for socket.io
 const express = require('express');
 const http = require('http');
 const socketIo = require ('socket.io');
 
 const port = 4001;
-const index = require("./routes/index");//prendiamo il router presente in index
+const index = require("./routes/index");
 
-
-
-//questa versione permette di monitorare solo un canale discord
-//carichiamo le info sul server discord che stiamo monitorando
+//functions (can be moved to another file.js)
 const sendDiscordInfoPRO = async (client, socket , discordGuild)=>{
     try{   
         const guild = await client.guilds.fetch(discordGuild);
         // console.log(guild);
         const vocalChannels = guild.channels.cache.filter(channel=>channel.type === 'voice');
         const channels= [...vocalChannels];
-        let data ={//informazioni che mi servono per la App
+        let data ={//get specific informations for the app
             channelName:guild.name,
             channelId:guild.id,
             channelImg: guild.iconURL(),
             available: guild.available,
             voiceChannels:[]
         }
-        for(let i=0; i< channels.length; i++){//riporta tutti gli utenti presenti sui canali
+        for(let i=0; i< channels.length; i++){//get all the users in the voice channels
             // console.log(channels[i][1]);
             let users = [...channels[i][1].members];
             let channel = {
@@ -45,7 +43,7 @@ const sendDiscordInfoPRO = async (client, socket , discordGuild)=>{
             for(j=0; j< users.length; j++){
                 // console.log(users[j][1]);
                 // console.log(users[j][1].user.defaultAvatarURL);
-                let user = {//.user é un USER, invece normalmente é un MEMBER GUILD
+                let user = {// we take the USER from the MEMBER GUILD (see discord.js for more)
                     name: users[j][1].user.username,
                     id: users[j][1].user.id,
                     img: users[j][1].user.avatarURL(),
@@ -77,7 +75,6 @@ const sendDiscordInfoPresence = async (client, socket, discordGuild)=>{
     try {
         const guild = await client.guilds.fetch(discordGuild);
         const members = await guild.members.fetch();
-        //{user:['818808348420866050', '391256123761623050']}
         const users = [...members];
         let data=[];
         for(i=0; i<users.length; i++){
@@ -94,7 +91,7 @@ const sendDiscordInfoPresence = async (client, socket, discordGuild)=>{
             data.push(data_user);
         }
         socket.emit("USERS_STATE_INFO", data);
-        console.log("Cambiamento status effettuato");
+        console.log("Status Change");
     } catch (error) {
         console.log(error);
     } 
@@ -106,7 +103,7 @@ const sendGuilds = (client, socket, selected)=>{
     socket.emit("GUILDS", {list:guilds, selected});
 }
 
-const getUser = (channels, id) =>{//funzione riporta un utente dati tutti i canali
+const getUser = (channels, id) =>{//function that takes an User searching from all the Voice Channels
     for(let i=0; i< channels.length; i++){
         let users = [...channels[i][1].members];
         for(let j=0; j< users.length; j++){
@@ -284,44 +281,44 @@ const toggleRole = async (client, socket, data, discordGuild) =>{
     }
 }
 
-const testInfo = async(client, socket)=>{//per testare oggetti
+const testInfo = async(client, socket)=>{//for testing purpose
     
 }
-//FUNZIONI: da mettere in un altro documento!
+//end of functions
 
-
+//setup discord, express and socket.io
 const app = express();
 app.use(index);
 const server = http.createServer(app);
 const io = socketIo(server , { transport : ['websocket'] });
 
-//SERVER DISCORD --------/ avviato
-client.addListener('ready', (req, res)=>{//carica all'inizio
-    console.log("Server Discord Avviato");
+//SERVER DISCORD --------/ started
+client.addListener('ready', (req, res)=>{
+    console.log("Server Discord Started");
 
     io.on("connection", (socket)=>{
         let discordGuild = client.guilds.cache.first(1)[0].id;//select fist guild on the list
         console.log("New client REACT connected to the DISCORD BOT");
-        socket.emit('HELLO', "CIAO VILLANO!");
-        sendDiscordInfoPRO(client, socket, discordGuild);//mandiamo le info alla prima connessione
+        socket.emit('HELLO', "Hi my friend!");
+        sendDiscordInfoPRO(client, socket, discordGuild);//send info on the first connection
         sendDiscordInfoPresence(client, socket, discordGuild);
         // testInfo(client,socket);
          
         sendGuilds(client, socket, discordGuild);
-        //eventi discord to manager
-        client.addListener('voiceStateUpdate', (req, res)=>{//manda un messaggio ad ogni aggiornamento
-            console.log("Cambiamento in corso");
+        //events triggered by Discord to the Discord Bot, send automatic info to Discord Manager
+        client.addListener('voiceStateUpdate', (req, res)=>{//send info on every update
+            console.log("VoiceState Change");
             sendDiscordInfoPRO(client, socket, discordGuild);
         })
-        client.addListener('presenceUpdate', (req, res)=>{//manda un messaggio ad ogni aggiornamento
-            console.log("Cambiamento status in corso");
+        client.addListener('presenceUpdate', (req, res)=>{//send info on every update
+            console.log("PresenceState Change");
             sendDiscordInfoPresence(client, socket, discordGuild);
         })
         socket.on("disconnect", ()=>{
             console.log("Client disconnected");
         })
 
-        //eventi manager to discord
+        //events from Discord Manager to Discord Bot
         socket.on("CHANGE_GUILD", (id)=>{
             discordGuild=id;
             sendGuilds(client, socket, discordGuild);
@@ -329,31 +326,31 @@ client.addListener('ready', (req, res)=>{//carica all'inizio
             sendDiscordInfoPresence(client, socket, discordGuild);
 
         })
-        socket.on("KICK", (id)=>{//per kickare un utente
+        socket.on("KICK", (id)=>{//kick an user from voice channel
             kickUser(client, id, discordGuild);
         })
-        socket.on("MUTE", (id)=>{//per mutare un utente
+        socket.on("MUTE", (id)=>{//mute an user from voice channel
             muteUser(client, id, discordGuild);
         })
-        socket.on("DEAF", (id)=>{//per rendere sordo un utente
+        socket.on("DEAF", (id)=>{//deaf an user from voice channel
             deafUser(client, id, discordGuild);
         })
-        socket.on("DRAG_USER", (data)=>{//for drag an user to another channel
+        socket.on("DRAG_USER", (data)=>{//drag an user to another voice channel
             dragUser(client, data, discordGuild);
         })
-        socket.on("DRAG_ALL", (data)=>{//drag all the user from a channel to another channel
+        socket.on("DRAG_ALL", (data)=>{//drag all the users from a voice channel to another voice channel
             dragAll(client, data, discordGuild);
         })
-        socket.on("GET_USER_INFO", id=>{
+        socket.on("GET_USER_INFO", id=>{//get info of a specific user
             getUserInfo(client, socket, id, discordGuild);
         })
-        socket.on("KICK_FROM_GUILD", id=>{
+        socket.on("KICK_FROM_GUILD", id=>{//kick an user from guild
             kickUserGuild(client, socket, id, discordGuild);
         })
-        socket.on("BAN_FROM_GUILD", id=>{
+        socket.on("BAN_FROM_GUILD", id=>{//ban an user from guild
             banUserGuild(client, socket, id, discordGuild);
         })
-        socket.on("TOGGLE_ROLE", data=>{
+        socket.on("TOGGLE_ROLE", data=>{//toggle a role of an user
             toggleRole(client, socket, data, discordGuild);
         })
     })
