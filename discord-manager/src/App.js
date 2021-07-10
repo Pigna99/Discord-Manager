@@ -20,7 +20,7 @@ import Path from './screen';
 
 function App() {
   const {available, voiceChannels, showOptionsBar, showUsersStateBar} = useGlobalContext();
-  if(available){
+  if(available){//move? - sort the voice channels
     voiceChannels.sort((first, second)=>first.position - second.position);
     // console.log(voiceChannels)
   }

@@ -1,9 +1,9 @@
-//DISCORD ACTIONS
+//DISCORD ACTIONS - to complete!
 const GENERIC_INFO = "GENERIC_INFO";
 
 
 
 
-//REDUCER ACTIONS (VUOTO PER ORA)
+//REDUCER ACTIONS -to complete!
 
 export {GENERIC_INFO};

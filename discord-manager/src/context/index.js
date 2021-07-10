@@ -38,17 +38,14 @@ const AppProvider = ({children})=>{//context!
 
     //discord commands
     const kickUser = (userid)=>{
-        // console.log(socketState);
         socketState.emit("KICK" , userid);
     }
 
     const muteUser = (userid)=>{
-        // console.log(socketState);
         socketState.emit("MUTE" , userid);
     }
 
     const deafUser = (userid)=>{
-        // console.log(socketState);
         socketState.emit("DEAF" , userid);
     }
 
@@ -68,7 +65,7 @@ const AppProvider = ({children})=>{//context!
     }
 
     const dragAllUsers = (start, end) =>{
-        if(start !== end){//se grabbi nello stesso canale non ha senso!
+        if(start !== end){//cant' drop in the same channel you grabbed
             let data = {
                 startChannel: start,
                 endChannel: end
@@ -83,7 +80,7 @@ const AppProvider = ({children})=>{//context!
     }
 
     const manageUser= (operation, id) =>{
-        console.log(operation, id, "evviva!")
+        // console.log(operation, id, "worked!")
         if(operation === "KICK"){
             socketState.emit("KICK_FROM_GUILD", id);
         }else if(operation === "BAN"){
@@ -156,7 +153,7 @@ const AppProvider = ({children})=>{//context!
     }
     //reducer
     //SOCKET==================
-    useEffect(()=>{//stabilisce la connessione con il socket - discord server
+    useEffect(()=>{//connection socket.io - discord server
         const socket = socketIOClient(ENDPOINT, { transports: ['websocket', 'polling', 'flashsocket'] });
         setSocketState(socket);
         socket.on(GENERIC_INFO, data=>{
@@ -178,7 +175,7 @@ const AppProvider = ({children})=>{//context!
             setBanKickInfo(data);
         })
 
-        socket.on("TEST", data=>{//per ricevere oggetti di test
+        socket.on("TEST", data=>{//for testing purpose
             console.log(data);
         })
     },[]);

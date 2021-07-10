@@ -55,7 +55,7 @@ const Role = ({name, id, color, editable, managed})=>{
     const {userInfo, toggleRole} = useGlobalContext();
     const [render, setRender] = useState(false);
     let checkbox = false;
-    //a dirty solution to rerender the element... better solutions?
+    //a dirty solution for rerender the element... better solutions?
     useEffect(()=>{
         setRender(false);
         const timeout = setTimeout(()=>{setRender(true);}, 10);
