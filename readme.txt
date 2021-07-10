@@ -21,6 +21,7 @@ Setup Discord BOT:
 2)Before start the bot, create a .env file and put inside in the first line "DISCORDJS_BOT_TOKEN=" followed by the Discord Bot Token. Save the File.
 3)Back to Terminal, run "npm start" to Start the Discord BOT. Remember to add the BOT to the Channels you want to monitor!
 
+
 Setup Discord Manager UI:
-1)Open the "discord-manager" folder via Terminal and run "npm install" to install all the dependencies.
+1)Open the "discord-manager" folder via Terminal (you need to open a new shell!) and run "npm install" to install all the dependencies.
 2)Start the React App local server with "npm start". After a while, a new Browser window will open and you will be in front of the Discord Manager UI.

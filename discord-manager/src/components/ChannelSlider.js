@@ -55,7 +55,9 @@ const Slide = ({img, name, positionClass})=>{
         
             <div className={"guild-slider " + positionClass}>
                 <Link to="/">
-                    <img src={img} alt={name} className={"img-header"}/>
+                    {
+                        img && <img src={img} alt={name} className={"img-header"}/>
+                    }
                 </Link>
                 <h3>
                     <Link to="/">{name}</Link>
