@@ -845,4 +845,17 @@ td{
     font-size: small;
     padding:10px;
   }
+
+  .img-user-state{
+    height: 30px;
+    width: 30px;
+  }
+
+  .user-state > h4{
+    font-size: small;
+  }
+
+  .users-state-section > h4{
+    font-size: small;
+  }
 }

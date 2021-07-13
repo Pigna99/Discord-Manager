@@ -30,8 +30,8 @@ function App() {
     <BrowserRouter> 
       <div className="title">
         <header>
-          <button className="btn-options" onClick={showOptionsBar}><RiSettings5Fill/></button>
-          <button className="btn-options btn-users" onClick={showUsersStateBar}><BiMenu/></button>
+          <button className="btn-options" onClick={available && showOptionsBar}><RiSettings5Fill/></button>
+          <button className="btn-options btn-users" onClick={available && showUsersStateBar}><BiMenu/></button>
           <h2>Discord Manager</h2>
         </header>
         <hr className="hr-header"/>

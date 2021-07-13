@@ -5,7 +5,7 @@ import {useGlobalContext} from '../context'
 import {BsArrowLeft, BsArrowRight} from 'react-icons/bs'
 
 function ChannelSlider() {
-    const {guilds, active, setGuild} = useGlobalContext();
+    const {guilds, active, setGuild, available} = useGlobalContext();
 
 
     const slideLeft = ()=>{
@@ -27,7 +27,7 @@ function ChannelSlider() {
 
     return (
         <div className="slider">
-            <button className="arrow arrow-left" onClick={slideLeft}><Link to="/"><BsArrowLeft/></Link></button>
+            <button className="arrow arrow-left" onClick={available && slideLeft}><Link to="/"><BsArrowLeft/></Link></button>
             <div className="guild-name">
                 {
                     guilds.list ? 
@@ -45,7 +45,7 @@ function ChannelSlider() {
                     : <div>Guild not found</div>
                 }
             </div>
-            <button className="arrow arrow-right" onClick={slideRight}><Link to="/"><BsArrowRight/></Link></button>
+            <button className="arrow arrow-right" onClick={available && slideRight}><Link to="/"><BsArrowRight/></Link></button>
         </div>
     )
 }

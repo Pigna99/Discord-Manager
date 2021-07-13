@@ -3,7 +3,7 @@ import socketIOClient from 'socket.io-client';
 import {GENERIC_INFO} from './actions';
 import reducer from "./reducer";
 
-const ENDPOINT = "http://127.0.0.1:4001";//da mettere in altro file?
+const ENDPOINT = "https://discord-manager-bot-test.herokuapp.com/";//da mettere in altro file?
 const initialState = {
     hiddenChannels : [],
     isOptionsBar: false,
