@@ -4,6 +4,13 @@ Discord Manager is a Web Application based on React and Node.js that lets you ma
 This App is based on a Discord BOT that take informations or takes action on a Guild.
 The Discord BOT is connected via Socket.io to a front-end React Application that provide an intuitive UI.
 
+You can try this app here: https://discord-manager-test.netlify.app/
+The Bot is hosted true Heroku: https://discord-manager-bot-test.herokuapp.com/
+
+You can enter the Voice Channels to try all the features!
+First Test Channel: https://discord.gg/GVmEDmaSc5
+Second Test Channel: https://discord.gg/erqxHzJr5r
+Third Test Channel: https://discord.gg/eNdCZj3KVY
 
 How to setup:
 Before start you need 2 important prerequisite:
