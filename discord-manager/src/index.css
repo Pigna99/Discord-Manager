@@ -85,7 +85,6 @@ body{
   color: var(--white);
   padding-left:10px;
   padding-right:10px;
-  overflow:hidden;
 }
 .img-header{
   border-radius: 50%;
