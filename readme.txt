@@ -5,7 +5,7 @@ This App is based on a Discord BOT that take informations or takes action on a G
 The Discord BOT is connected via Socket.io to a front-end React Application that provide an intuitive UI.
 
 You can try this app here: https://discord-manager-test.netlify.app/
-The Bot is hosted true Heroku: https://discord-manager-bot-test.herokuapp.com/
+The Bot is hosted through Heroku: https://discord-manager-bot-test.herokuapp.com/
 
 You can enter the Voice Channels to try all the features!
 First Test Channel: https://discord.gg/GVmEDmaSc5
